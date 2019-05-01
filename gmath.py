@@ -26,6 +26,9 @@ def get_lighting(normal, view, ambient, light, areflect, dreflect, sreflect ):
 
 def calculate_ambient(alight, areflect):
     color = [0,0,0]
+    for index in range(len(color)):
+        color[index] = alight[index] * areflect[index]
+    return limit_color(color)
     
 
 def calculate_diffuse(light, dreflect, normal):
