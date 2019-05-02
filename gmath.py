@@ -32,10 +32,15 @@ def calculate_ambient(alight, areflect):
     
 
 def calculate_diffuse(light, dreflect, normal):
-    pass
+    color = [0,0,0]
+    for index in range(len(color)):
+        color[index] = light[COLOR][index] * dreflect[index] * dot_product(normalize(light[LOCATION]), normalize(normal))
+    return limit_color(color)
 
 def calculate_specular(light, sreflect, view, normal):
-    pass
+    color = [0,0,0]
+    temp = [0,0,0]
+    
 
 def limit_color(color):
     for index in range(len(color)):
