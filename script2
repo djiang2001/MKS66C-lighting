@@ -1,0 +1,34 @@
+push
+rotate
+y 30
+rotate
+z 30
+move
+100 -150 0
+sphere
+250 350 0 100
+sphere
+200 330 100 10
+sphere
+300 330 100 10
+sphere
+250 120 0 130
+line
+120 170 0 50 200 0
+line
+85 185 0 50 170 0
+line
+85 185 0 50 220 0
+line
+380 170 0 450 200 0
+line
+415 185 0 450 230 0
+line
+415 185 0 450 170 0
+box
+150 460 0 200 10 30
+box
+200 490 0 100 30 30
+display
+save
+snowman.png
