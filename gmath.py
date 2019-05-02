@@ -22,7 +22,19 @@ SPECULAR_EXP = 4
 
 #lighting functions
 def get_lighting(normal, view, ambient, light, areflect, dreflect, sreflect ):
-    pass
+    color = [0,0,0]
+    
+    normalize(normal)
+    normalize(light[LOCATION])
+    normalize(view)
+
+    a = calculate_ambient(ambient, areflect)
+    d = calculate_diffuse(light, dreflect, normal)
+    s = calculate_specular(light, sreflect, view, normal)
+
+    for index in range(len(color)):
+        color[index] = a[index] + d[index] + s[index]
+    return limit_color(color)
 
 def calculate_ambient(alight, areflect):
     color = [0,0,0]
@@ -32,9 +44,10 @@ def calculate_ambient(alight, areflect):
     
 
 def calculate_diffuse(light, dreflect, normal):
-    color = [0,0,0]
+    color = [0, 0, 0]
+    dot = dot_product( light[LOCATION], normal)
     for index in range(len(color)):
-        color[index] = light[COLOR][index] * dreflect[index] * dot_product(normalize(light[LOCATION]), normalize(normal))
+        color[index] = light[COLOR][index] * dreflect[index] * dot
     return limit_color(color)
 
 def calculate_specular(light, sreflect, view, normal):
@@ -43,9 +56,11 @@ def calculate_specular(light, sreflect, view, normal):
 
     c = 2 * dot_product(light[LOCATION], normal)
     for index in range(len(temp)):
-        temp[index] = normal[0] * c - light[LOCATION][index]
+        temp[index] = normal[index] * c - light[LOCATION][index]
 
-    c = pow((dot_product(temp, view)), SPECULAR_EXP)
+    c = (dot_product(temp, view))
+    c = c if c > 0 else 0
+    c = pow(c, SPECULAR_EXP)
     for index in range(len(color)):
         color[index] = light[COLOR][index] * sreflect[index] * c
 
@@ -70,6 +85,7 @@ def normalize(vector):
                            vector[2] * vector[2])
     for i in range(3):
         vector[i] = vector[i] / magnitude
+    return vector
 
 #Return the dot porduct of a . b
 def dot_product(a, b):
