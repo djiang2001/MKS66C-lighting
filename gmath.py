@@ -40,6 +40,17 @@ def calculate_diffuse(light, dreflect, normal):
 def calculate_specular(light, sreflect, view, normal):
     color = [0,0,0]
     temp = [0,0,0]
+
+    c = 2 * dot_product(light[LOCATION], normal)
+    for index in range(len(temp)):
+        temp[index] = normal[0] * c - light[LOCATION][index]
+
+    c = pow((dot_product(temp, view)), SPECULAR_EXP)
+    for index in range(len(color)):
+        color[index] = light[COLOR][index] * sreflect[index] * c
+
+    return limit_color(color)
+    
     
 
 def limit_color(color):
